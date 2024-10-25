@@ -1,5 +1,6 @@
 from PySide2 import QtWidgets
 from PySide2.QtCore import Qt
+from PySide2.QtGui import QKeyEvent
 
 import substance_painter.ui
 import substance_painter.event
@@ -43,11 +44,6 @@ def config_ini(overwrite):
 
     return TexConvPath
 
-
-def choose_texconv_folder():
-    path = QtWidgets.QFileDialog.getExistingDirectory(
-    substance_painter.ui.get_main_window(),"Choose Texconv directory")
-    return path +"/texconv.exe"
 
 def convert_png_to_dds(texconvPath, sourcePNG, overwrite):
     # Replace backslashes with forward slashes in the provided paths
@@ -110,7 +106,7 @@ class Tm2020DDSPlugin:
         # Overwrites existing DDS files if checked
         self.overwrite = True
         # Plugin Version
-        self.version = "0.0.1"
+        self.version = "0.0.2"
 
         # Create a dock widget to report plugin activity.
         self.log = QtWidgets.QTextEdit()
@@ -124,17 +120,15 @@ class Tm2020DDSPlugin:
         checkbox.setChecked(True)
         checkbox_overwrite = QtWidgets.QCheckBox("Overwrite DDS files")
         checkbox_overwrite.setChecked(True)
-        button_texconv = QtWidgets.QPushButton("Choose Texconv location")
         button_clear = QtWidgets.QPushButton("Clear Log")
-
+        self.button_export_textures = QtWidgets.QPushButton("Export Textures")
         version_label = QtWidgets.QLabel("Version: {}".format(self.version))
 
         # Adds buttons to sub-layout
         sub_layout.addWidget(checkbox)
         sub_layout.addWidget(checkbox_overwrite)
-        sub_layout.addWidget(button_texconv)
         sub_layout.addWidget(button_clear)
-
+        sub_layout.addWidget(self.button_export_textures)
         # Adds all widgets to main layout
         layout.addLayout(sub_layout)
         layout.addWidget(self.log)
@@ -148,9 +142,8 @@ class Tm2020DDSPlugin:
         # Connects buttons to click events
         checkbox.stateChanged.connect(self.checkbox_export_change)
         checkbox_overwrite.stateChanged.connect(self.checkbox_overwrite_change)
-        button_texconv.clicked.connect(self.button_texconv_clicked)
         button_clear.clicked.connect(self.button_clear_clicked)
-
+        self.button_export_textures.clicked.connect(self.open_export_textures_window)
         # Adds Qt as dockable widget to Substance Painter
         substance_painter.ui.add_dock_widget(self.window)
 
@@ -180,6 +173,12 @@ class Tm2020DDSPlugin:
             self.overwrite = True
         else:
             self.overwrite = False
+
+   # Function to simulate Ctrl+Shift+E to open the export window
+    def open_export_textures_window(self):
+        event = QKeyEvent(QKeyEvent.KeyPress, Qt.Key_E, Qt.ControlModifier | Qt.ShiftModifier)
+        QtWidgets.QApplication.sendEvent(substance_painter.ui.get_main_window(), event)
+
 
     def __del__(self):
         # Remove all added UI elements.
