@@ -7,5 +7,8 @@ Extract the Folder "TM2020_DDS_Convert" into your Substance Painter Plugin folde
 Mainly
 C:\Users\username\Documents\Adobe\Adobe Substance 3D Painter\python\plugins
 Startup SP and on top menu select Python  >  TM2020_DDS_Convert and checkmark this.
-![image](https://github.com/user-attachments/assets/06a21923-9cf1-41c5-b4df-5afc1d62612e)
 
+V3Release
+![image](https://github.com/user-attachments/assets/94838860-eaf4-4167-abc6-40f917c133a5)
+V1
+![image](https://github.com/user-attachments/assets/06a21923-9cf1-41c5-b4df-5afc1d62612e)
