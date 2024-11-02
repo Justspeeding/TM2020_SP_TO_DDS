@@ -77,7 +77,7 @@ class Tm2020DDSPlugin:
         self.export = True
         self.overwrite = True
         self.make_zip = True
-        self.version = "0.0.3"
+        self.version = "0.0.4"
         self.TexConvPath = config_ini(False)
         self.DDSPath = None  # Will be updated after conversion
 
@@ -172,7 +172,7 @@ class Tm2020DDSPlugin:
         zip_path = os.path.join(folder_path, zip_name if zip_name.endswith(".zip") else zip_name + ".zip")
 
         try:
-            with zipfile.ZipFile(zip_path, 'w') as zipf:
+            with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_LZMA) as zipf:
                 for root, _, files in os.walk(folder_path):
                     for file in files:
                         if file.endswith(".dds"):
